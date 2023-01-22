@@ -8,12 +8,22 @@ import threading
 import _thread as thread
 
 from math import factorial
+from typing import Callable
 from functools import wraps
 from datetime import datetime
 
 
-def retry_decorator(max_retries):
-    def retry_decorator_(f):
+def retry_decorator(max_retries: int) -> Callable:
+    """
+    A decorator that allows a function to retry a
+    specified number of times in case of an exception
+
+    :param max_retries: The maximum number of times to retry
+    :type max_retries: int
+    :return: The decorated function
+    :rtype: Callable
+    """
+    def retry_decorator_(f: Callable) -> Callable:
         @wraps(f)
         def func_with_retries(*args, **kwargs):
             error = None
@@ -33,6 +43,7 @@ def retry_decorator(max_retries):
             return None
         return func_with_retries
     return retry_decorator_
+
 
 
 def timed_retries(max_retries, minutes=1):
