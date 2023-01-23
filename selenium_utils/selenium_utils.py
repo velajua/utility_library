@@ -1,24 +1,32 @@
-from fake_useragent import UserAgent
-from selenium import webdriver
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from webdriver_manager.chrome import ChromeDriverManager
+import os
+import sys
 
+from selenium import webdriver
+from fake_useragent import UserAgent
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
 
 from ip_utils import useful_proxies_gen
 
 
 def getDriver(*mods: str) -> webdriver.Chrome:
-    '''
-    *mods: String
+    """
+    This function creates and returns a Chrome webdriver
+    with specified options.
+
+    *mods: str
     userAgent: adds a random user agent to the driver
     incognito: adds incognito mode to the driver
     proxy: creates proxy connection through the driver
     proxy={PROXY:PORT} - overwrites the default proxy, requires proxy
     maximize: adds maximize mode to the driver
-    '''
+    headless: run the browser in headless mode
+    """
     chrome_options = webdriver.ChromeOptions()
     capabilities = DesiredCapabilities.CHROME
 
@@ -53,5 +61,23 @@ def getDriver(*mods: str) -> webdriver.Chrome:
         driver.maximize_window()
     return driver
 
-def driver_wait(driver: webdriver.Chrome, time: int, xpath: str) -> None:
-    WebDriverWait(driver, time).until(EC.element_to_be_clickable((By.XPATH, xpath)))
+
+def driver_wait(driver: WebDriver, time: int, xpath: str) -> None:
+    """
+    Wait for an element to be clickable
+
+    :param driver: The webdriver instance
+    :type driver: WebDriver
+    :param time: Time to wait
+    :type time: int
+    :param xpath: xpath of the element
+    :type xpath: str
+    """
+    WebDriverWait(driver, time).until(
+        EC.element_to_be_clickable((By.XPATH, xpath)))
+
+
+file_name = os.path.splitext(os.path.basename(os.path.abspath(__file__)))[0]
+dir_name = os.path.basename(os.path.dirname(os.path.abspath(__file__)))
+if __name__ == "__main__" or __name__ == f"{dir_name}.{file_name}":
+    sys.path.append(os.path.dirname(os.path.abspath(__file__)))
