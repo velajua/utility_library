@@ -1,0 +1,5 @@
+BeautifulSoup4==4.11.1
+fake-useragent==0.1.11
+selenium==3.141.0
+requests==2.28.1
+webdriver-manager==3.2.2
