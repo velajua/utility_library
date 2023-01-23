@@ -101,3 +101,9 @@ def useful_proxies_gen(type_: str='dict') -> Iterator[
                        'https': f'https://{i}'}
         except Exception:
             continue
+
+
+file_name = os.path.splitext(os.path.basename(os.path.abspath(__file__)))[0]
+dir_name = os.path.basename(os.path.dirname(os.path.abspath(__file__)))
+if __name__ == "__main__" or __name__ == f"{dir_name}.{file_name}":
+    sys.path.append(os.path.dirname(os.path.abspath(__file__)))
