@@ -111,10 +111,11 @@ def click_element(driver: WebDriver,
     return True
 
 
-def type_into_element(driver: WebDriver, time: int,
-                      xpath: str, text: str) -> None:
+def type_or_get_text(driver: WebDriver, time: int,
+                     xpath: str, text: str = None,
+                     action: str = None) -> Union[bool, str]:
     """
-    Type text into an element
+    Type or get text into/from an element
 
     :param driver: The webdriver instance
     :type driver: WebDriver
@@ -124,11 +125,19 @@ def type_into_element(driver: WebDriver, time: int,
     :type xpath: str
     :param text: Text to type
     :type text: str
+    :param action: Action to do. One of: 'type' and 'get'
+    :type action: str
     """
     driver_wait(driver, time, xpath)
     element = driver.find_element(By.XPATH, xpath)
-    element.clear()
-    element.send_keys(text)
+    if action == 'type':
+        element.clear()
+        element.send_keys(text)
+        return True
+    elif action == 'get':
+        return element.text
+    else:
+        return False
 
 
 def page_interaction(driver: WebDriver, action: str,
