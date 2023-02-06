@@ -120,6 +120,48 @@ def type_into_element(driver: WebDriver, time: int,
     element.send_keys(text)
 
 
+def page_interaction(driver: WebDriver, action: str,
+                     route: str = None) -> Union[boolean, str]:
+    """
+    Perform various actions on the current page of the
+    given webdriver.
+
+    :param driver: The webdriver instance
+    :type driver: WebDriver
+    :param action: The action to perform on the current page.
+        One of: "back", "forward", "refresh", "screenshot", "source".
+    :type action: str
+    :param route: The file path to save the result to.
+        Required for actions "screenshot" and "source".
+    :type route: str, optional
+    :return: The page source or screenshot file, or None
+        if the action was "back", "forward", or "refresh".
+    :rtype: Union[None, str]
+    """
+    if action == "back":
+        driver.back()
+        return True
+    elif action == "forward":
+        driver.forward()
+        return True
+    elif action == "refresh":
+        driver.refresh()
+        return True
+    elif action == "screenshot":
+        if route is None:
+            return driver.get_screenshot_as_base64()
+        driver.get_screenshot_as_file(route)
+        return route
+    elif action == "source":
+        if route is None:
+            return driver.page_source
+        with open(route, "w") as f:
+            f.write(driver.page_source)
+        return route
+    else:
+        return False
+
+
 file_name = os.path.splitext(os.path.basename(os.path.abspath(__file__)))[0]
 dir_name = os.path.basename(os.path.dirname(os.path.abspath(__file__)))
 if __name__ == "__main__" or __name__ == f"{dir_name}.{file_name}":
