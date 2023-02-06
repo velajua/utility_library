@@ -1,10 +1,9 @@
 import os
-import sys
 import dill
 import redis
 import pickle
 
-from typing import Union, Optional
+from typing import Union, Optional, Any
 
 
 def redis_set(key: str, value: str,
@@ -131,7 +130,7 @@ def cache_redis(key, value, millis):
 file_name = os.path.splitext(os.path.basename(os.path.abspath(__file__)))[0]
 dir_name = os.path.basename(os.path.dirname(os.path.abspath(__file__)))
 if __name__ == "__main__" or __name__ == f"{dir_name}.{file_name}":
-    redis_port = 6379
+    redis_port = 6379 # default port
     redis_host = "localhost" # ip of redis host
 
     redis_client = redis.Redis(host=redis_host, port=redis_port)
