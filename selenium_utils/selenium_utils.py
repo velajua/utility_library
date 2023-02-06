@@ -84,7 +84,8 @@ def driver_wait(driver: WebDriver, time: int, xpath: str) -> None:
         sys.exit()
 
 
-def click_element(driver: WebDriver, time: int, xpath: str) -> None:
+def click_element(driver: WebDriver,
+                  time: int, xpath: str) -> None:
     """
     Click on an element
 
@@ -99,7 +100,8 @@ def click_element(driver: WebDriver, time: int, xpath: str) -> None:
     driver.find_element(By.XPATH, xpath).click()
 
 
-def type_into_element(driver: WebDriver, time: int, xpath: str, text: str) -> None:
+def type_into_element(driver: WebDriver, time: int,
+                      xpath: str, text: str) -> None:
     """
     Type text into an element
 
