@@ -29,6 +29,7 @@ def getDriver(*mods: str) -> webdriver.Chrome:
     :return: webdriver with the *mods specified.
     :rtype: webdriver.Chrome
     """
+```
 
 ### `driver_wait`
 
@@ -51,6 +52,7 @@ def driver_wait(driver: WebDriver, time: int,
 
 Clicks on an element.
 
+```python
 def click_element(driver: WebDriver,
                   time: int, xpath: str) -> bool:
     """
@@ -63,11 +65,13 @@ def click_element(driver: WebDriver,
     :return: True after the element has been clicked.
     :rtype: bool
     """
+```
 
 ### `type_or_get_text`
 
 Types or gets text into/from an element.
 
+```
 def type_or_get_text(driver: WebDriver, time: int,
                      xpath: str, text: str = None,
                      action: str = None) -> Union[bool, str]:
@@ -85,7 +89,7 @@ def type_or_get_text(driver: WebDriver, time: int,
     :return: True after typing text or the text of the element.
     :rtype: Union[bool, str]
     """
-
+```
 
 
 
