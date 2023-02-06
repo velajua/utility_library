@@ -11,7 +11,8 @@ def slackMessage(message: Union[str, Dict], url: str,
                  title: str = "New Incoming Message :zap:",
                  color: str = "#9733EE"):
     """
-    A function that sends a message to a slack channel
+    A function that sends a message to a slack channel using the
+      url from the incoming webhook integration 
     :param message: The message to be sent
     :type message: Union[str, Dict]
     :param url: The url of the slack channel to post the message
