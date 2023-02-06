@@ -14,6 +14,8 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from ip_utils import useful_proxies_gen
 
+from typing import Union
+
 
 def getDriver(*mods: str) -> webdriver.Chrome:
     """
@@ -27,6 +29,9 @@ def getDriver(*mods: str) -> webdriver.Chrome:
     proxy={PROXY:PORT} - overwrites the default proxy, requires proxy
     maximize: adds maximize mode to the driver
     headless: run the browser in headless mode
+    
+    :return: webdriver with the *mods specified.
+    :rtype: webdriver.Chrome
     """
     chrome_options = webdriver.ChromeOptions()
     capabilities = DesiredCapabilities.CHROME
@@ -63,7 +68,8 @@ def getDriver(*mods: str) -> webdriver.Chrome:
     return driver
 
 
-def driver_wait(driver: WebDriver, time: int, xpath: str) -> None:
+def driver_wait(driver: WebDriver, time: int,
+                xpath: str) -> Union[None, bool]:
     """
     Wait for an element to be clickable
 
@@ -73,19 +79,21 @@ def driver_wait(driver: WebDriver, time: int, xpath: str) -> None:
     :type time: int
     :param xpath: xpath of the element
     :type xpath: str
+    :return: True after the element has been found.
+    :rtype: Union[None, bool]
     """
     try:
         WebDriverWait(driver, time).until(
             EC.element_to_be_clickable((By.XPATH, xpath)))
+        return True
     except Exception:
-        print("Element not found.")
-        print(traceback.format_exc())
+        print(f"Element {xpath} not found.")
         driver.quit()
         sys.exit()
 
 
 def click_element(driver: WebDriver,
-                  time: int, xpath: str) -> None:
+                  time: int, xpath: str) -> bool:
     """
     Click on an element
 
@@ -95,9 +103,12 @@ def click_element(driver: WebDriver,
     :type time: int
     :param xpath: xpath of the element
     :type xpath: str
+    :return: True after the element has been clicked.
+    :rtype: bool
     """
     driver_wait(driver, time, xpath)
     driver.find_element(By.XPATH, xpath).click()
+    return True
 
 
 def type_into_element(driver: WebDriver, time: int,
@@ -121,7 +132,7 @@ def type_into_element(driver: WebDriver, time: int,
 
 
 def page_interaction(driver: WebDriver, action: str,
-                     route: str = None) -> Union[boolean, str]:
+                     route: str = None) -> Union[bool, str]:
     """
     Perform various actions on the current page of the
     given webdriver.
@@ -136,7 +147,7 @@ def page_interaction(driver: WebDriver, action: str,
     :type route: str, optional
     :return: The page source or screenshot file, or None
         if the action was "back", "forward", or "refresh".
-    :rtype: Union[None, str]
+    :rtype: Union[bool, str]
     """
     if action == "back":
         driver.back()
@@ -148,16 +159,16 @@ def page_interaction(driver: WebDriver, action: str,
         driver.refresh()
         return True
     elif action == "screenshot":
-        if route is None:
-            return driver.get_screenshot_as_base64()
-        driver.get_screenshot_as_file(route)
-        return route
+        if route:
+            driver.get_screenshot_as_file(route)
+            return route
+        return driver.get_screenshot_as_base64()
     elif action == "source":
-        if route is None:
-            return driver.page_source
-        with open(route, "w") as f:
-            f.write(driver.page_source)
-        return route
+        if route:
+            with open(route, "w") as f:
+                f.write(driver.page_source)
+            return route
+        return driver.page_source
     else:
         return False
 
