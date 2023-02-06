@@ -73,7 +73,7 @@ def click_element(driver: WebDriver,
 
 Types or gets text into/from an element.
 
-```
+```python
 def type_or_get_text(driver: WebDriver, time: int,
                      xpath: str, text: str = None,
                      action: str = None) -> Union[bool, str]:
@@ -93,13 +93,24 @@ def type_or_get_text(driver: WebDriver, time: int,
     """
 ```
 
+### `page_interaction`
 
+Perform various actions on the current page of the given webdriver.
 
-
-
-
-
-
-
-
-
+```python
+def page_interaction(driver: WebDriver, action: str,
+                     route: str = None) -> Union[bool, str]:
+    """
+    :param driver: The webdriver instance
+    :type driver: WebDriver
+    :param action: The action to perform on the current page.
+        One of: "back", "forward", "refresh", "screenshot", "source".
+    :type action: str
+    :param route: The file path to save the result to.
+        Required for actions "screenshot" and "source".
+    :type route: str, optional
+    :return: The page source or screenshot file, or None
+        if the action was "back", "forward", or "refresh".
+    :rtype: Union[bool, str]
+    """
+```
