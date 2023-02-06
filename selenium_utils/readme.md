@@ -35,6 +35,7 @@ def getDriver(*mods: str) -> webdriver.Chrome:
 
 Waits for an element to be clickable.
 
+```
 def driver_wait(driver: WebDriver, time: int,
                 xpath: str) -> Union[None, bool]:
     """
@@ -47,6 +48,7 @@ def driver_wait(driver: WebDriver, time: int,
     :return: True after the element has been found.
     :rtype: Union[None, bool]
     """
+```
 
 ### `click_element`
 
