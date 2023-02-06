@@ -59,15 +59,24 @@ def redis_ttl(key: str) -> int:
     return -1
 
 
-def redis_set_dill(key: str, df, days: Optional[int]=None):
+def redis_set_dill(key: str, df: Any,
+                   replace: Optional[bool]=True,
+                   days: Optional[int]=None):
     """
     Store a Python object using dill serialization in Redis
     :param key: Key of the object to be stored
     :param df: Object to be stored
-    :param days: Expiration time in days,
+    :param replace: If True, replace the value
+      if the key already exists.
+                    If False, return False
+      if the key already exists.
+                    Default is True.
+     :param days: Expiration time in days,
       if None it will never expire
     :return: True if the object was stored successfully
     """
+    if redis_client.exists(key) and not replace:
+        return False
     redis_client.set(key, dill.dumps(df))
     if days:
         redis_client.expire(key, 60 * 60 * 24 * days)
@@ -88,6 +97,7 @@ def redis_get_dill(key: str) -> Union[object, None]:
 
 
 def redis_set_df(key: str, df: Any,
+                 replace: Optional[bool]=True,
                  days: Optional[int]=None) -> bool:
     """
     Function to store a pandas dataframe in Redis cache.
@@ -96,12 +106,19 @@ def redis_set_df(key: str, df: Any,
     key (str): Key to store the dataframe under in Redis.
     df (Any): Data to be stored, can be any type
       that is serializable.
+    replace (bool): If True, replace the value
+      if the key already exists.
+                    If False, return False
+      if the key already exists.
+                    Default is True.
     days (int, optional): Number of days until the
       key-value pair expires. Defaults to None.
     Returns:
     bool: Returns True if the data was stored successfully,
       False otherwise.
     """
+    if redis_client.exists(key) and not replace:
+        return False
     redis_client.set(key, pickle.dumps(df))
     if days:
         redis_client.expire(key, 60 * 60 * 24 * days)
