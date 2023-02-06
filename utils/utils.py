@@ -19,6 +19,8 @@ def retry_decorator(max_retries: int) -> Callable:
     A decorator that allows a function to retry a
     specified number of times in case of an exception
 
+    use: @retry_decorator(tries)
+
     :param max_retries: The maximum number of times to retry
     :type max_retries: int
     :return: The decorated function
@@ -53,6 +55,8 @@ def timed_retries(max_retries: int,
     specified number of times after a specified time
     interval in case of an exception
 
+    use: @timed_retries(tries, wait_mins)
+
     :param max_retries: The maximum number of times to retry
     :type max_retries: int
     :param minutes: The time interval between retries in minutes
@@ -83,6 +87,8 @@ def exit_after(seconds: int) -> Callable:
     """
     A decorator that exits the program
     if the function takes more than seconds seconds
+
+    use: @exit_after(seconds)
 
     :param seconds: The time limit in seconds
     :type seconds: int
@@ -122,6 +128,8 @@ def execution_time(f: Callable) -> Callable:
     """
     A decorator that calculates the execution time of a function
 
+    use: @execution_time
+
     :param f: The function to be decorated
     :type f: Callable
     :return: The decorated function
@@ -141,6 +149,8 @@ def remove_duplicates(f: Callable) -> Callable:
     """
     A decorator that removes duplicates from
     a list passed to the decorated function
+
+    use: @remove_duplicates
 
     :param f: The function to be decorated
     :type f: Callable
