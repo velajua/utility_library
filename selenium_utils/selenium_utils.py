@@ -1,5 +1,6 @@
 import os
 import sys
+import traceback
 
 from selenium import webdriver
 from fake_useragent import UserAgent
@@ -73,8 +74,48 @@ def driver_wait(driver: WebDriver, time: int, xpath: str) -> None:
     :param xpath: xpath of the element
     :type xpath: str
     """
-    WebDriverWait(driver, time).until(
-        EC.element_to_be_clickable((By.XPATH, xpath)))
+    try:
+        WebDriverWait(driver, time).until(
+            EC.element_to_be_clickable((By.XPATH, xpath)))
+    except Exception:
+        print("Element not found.")
+        print(traceback.format_exc())
+        driver.quit()
+        sys.exit()
+
+
+def click_element(driver: WebDriver, time: int, xpath: str) -> None:
+    """
+    Click on an element
+
+    :param driver: The webdriver instance
+    :type driver: WebDriver
+    :param time: Time to wait
+    :type time: int
+    :param xpath: xpath of the element
+    :type xpath: str
+    """
+    driver_wait(driver, time, xpath)
+    driver.find_element(By.XPATH, xpath).click()
+
+
+def type_into_element(driver: WebDriver, time: int, xpath: str, text: str) -> None:
+    """
+    Type text into an element
+
+    :param driver: The webdriver instance
+    :type driver: WebDriver
+    :param time: Time to wait
+    :type time: int
+    :param xpath: xpath of the element
+    :type xpath: str
+    :param text: Text to type
+    :type text: str
+    """
+    driver_wait(driver, time, xpath)
+    element = driver.find_element(By.XPATH, xpath)
+    element.clear()
+    element.send_keys(text)
 
 
 file_name = os.path.splitext(os.path.basename(os.path.abspath(__file__)))[0]
