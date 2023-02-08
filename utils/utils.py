@@ -10,6 +10,7 @@ import _thread as thread
 from math import factorial
 from functools import wraps
 from datetime import datetime
+from itertools import chain, combinations
 
 from typing import Callable, List, Tuple, Union, Dict
 
@@ -396,6 +397,54 @@ def separate_numbers_letters(x: str) -> str:
     """
     return ' '.join(re.findall(
         '[0-9]+|[a-zA-Z]+', x))
+
+
+def combination_powerset(set_: set) -> set:
+    """
+    Returns the powerset of a given set.
+    The powerset is a set of all subsets of a given set,
+    including the empty set and the original set.
+    
+    :param set_: The input set
+    :return: The powerset of the input set
+    """
+    return set(chain.from_iterable(
+        combinations(set_, r)
+        for r in range(len(set_) + 1)))
+
+
+def powerset(set_: set) -> List[List[int]]:
+    """
+    Returns the powerset of a given set.
+    The powerset is a set of all subsets of a given set,
+    including the empty set and the original set.
+    
+    :param s: The input set
+    :return: The powerset of the input set, as a list of lists
+    """
+    x, ans = len(set_), []
+    for i in range(1 << x):
+        temp = []
+        [temp.append(set_[j])
+         for j in range(x)
+         if (i & (1 << j))]
+        ans.append(temp)
+    return ans
+
+
+def odd_ones_out(old_: str, new_: str) -> str:
+    """
+    Returns the characters from string 'new_' that are not present in string 'old_'.
+    
+    :param old_: The first input string
+    :param new_: The second input string
+    :return: The characters in string 'new_' that are not present in string 'old_'
+    """
+    temp = new_
+    [temp := temp.replace(i, '', 1)
+     for i in old_
+     if i in temp]
+    return temp
 
 
 file_name = os.path.splitext(os.path.basename(os.path.abspath(__file__)))[0]
