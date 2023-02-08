@@ -1,4 +1,4 @@
-# slack_utils
+# utils
 
 A module with various decorator and everyday functions.
 
