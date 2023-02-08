@@ -1,6 +1,6 @@
 # ip_utils
 
-A module to send messages to a Slack channel using incoming webhook integration.
+A module to check the current ip and get a free proxy for small requests.
 
 ## Installation
 
@@ -11,29 +11,39 @@ pip install -r requirements.txt
 
 ## Usage
 
-### `slackMessage`
+### `my_ip`
 
-Sends a message to a Slack channel using incoming webhook integration.
+This function retrieves the current IP address of the device by making a request to 'http://icanhazip.com'
+It can also use a proxy to make the request if provided. Returns a string containing the set of IPs found or
+None in case of errors.
 
 ```python
-def slackMessage(message: Union[str, Dict], url: str,
-                 username: str, symbol: str,
-                 title: str = "New Incoming Message :zap:",
-                 color: str = "#9733EE"):
+def my_ip(proxies: dict = None) -> Union[str, None]:
+    """    
+    :param proxies: A dictionary containing the proxy settings
+        to be used for the request. Default is None
+    :type proxies: dict
+    :return: a string containing the set of IPs found
+        or None in case of errors.
+    :rtype: Union[str, None]
     """
-    :param message: The message to be sent
-    :type message: Union[str, Dict]
-    :param url: The url of the Slack channel to post the message
-    :type url: str
-    :param username: The username of the sender
-    :type username: str
-    :param symbol: The emoji symbol of the sender
-    :type symbol: str
-    :param title: The title of the message (default: "New Incoming Message :zap:")
-    :type title: str, optional
-    :param color: The color of the message (default: "#9733EE")
-    :type color: str, optional
-    :raises: Exception
-    """
-
 ```
+
+### `useful_proxies_gen`
+
+ A generator function that yields useful free proxies.
+
+```python
+def useful_proxies_gen(type_: str='dict') -> Iterator[
+        Union[str, Dict[str, str]]]:
+    """
+    Parameters:
+    type_ (str): The type of output desired, either 'dict'
+    or 'data'. Defaults to 'dict'.
+    Yields:
+    Union[str, Dict[str, str]]: A proxy in the format
+    specified by the type_ parameter.
+    """
+```
+    
+    
