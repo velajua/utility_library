@@ -1,6 +1,7 @@
 # redis_utils
 
-A module with Redis functions to store and retrieve values and objects.
+A module with Redis functions to store and retrieve values and objects. 
+to create a Redis instance, follow [`this link`](https://redis.io/docs/getting-started/installation/).
 
 ## Installation
 
