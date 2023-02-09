@@ -1,6 +1,7 @@
 # selenium_utils
 
 A module to create a Chrome webdriver with specified options and perform actions on web elements.
+This module uses a webdriver manager to install the chromedriver. Thus, no chrome driver is needed in the folder.
 
 ## Installation
 
