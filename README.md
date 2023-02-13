@@ -14,4 +14,4 @@ The following modules are included in this repository:
 - [`redis_utils`](redis_utils/README.md): A module for working with the Redis database
 - [`selenium_utils`](selenium_utils/README.md): A module for automating web browsers with Selenium
 - [`slack_utils`](slack_utils/README.md): A module for sending messages to Slack
-- [`utils`](utils/README.md): A general-purpose module with various helper functions
+- [`utils`](utils/README.md): A general-purpose module with various helper functions and decorators
