@@ -14,6 +14,8 @@ from itertools import chain, combinations
 
 from typing import Callable, List, Tuple, Union, Dict
 
+# Decorators
+
 
 def retry_decorator(max_retries: int) -> Callable:
     """
@@ -164,6 +166,8 @@ def remove_duplicates(f: Callable) -> Callable:
             args = list(dict.fromkeys(*args))
         return f(*args)
     return func_no_duplicates
+
+# Functions
 
 
 def levenshtein(word1: str, word2: str) -> int:
