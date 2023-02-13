@@ -1,6 +1,6 @@
 # utils
 
-A module with various decorator and everyday functions.
+A module with various decorators and everyday functions.
 
 ## Installation
 
