@@ -8,7 +8,9 @@ To install the required packages, run:
 
 pip install -r requirements.txt
 
-## Usage
+# Usage
+
+## Decorators
 
 ### `retry_decorator`
 
@@ -87,6 +89,8 @@ def remove_duplicates(f: Callable) -> Callable:
     :rtype: Callable
     """
 ```
+
+## Functions
 
 ### `levenshtein`
 
