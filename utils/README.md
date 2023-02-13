@@ -271,9 +271,6 @@ def combination_powerset(set_: set) -> set:
     :param set_: The input set
     :return: The powerset of the input set
     """
-    return set(chain.from_iterable(
-        combinations(set_, r)
-        for r in range(len(set_) + 1)))
 ```
 
 ### `powerset`
@@ -287,14 +284,6 @@ def powerset(set_: set) -> List[List[int]]:
     :param s: The input set
     :return: The powerset of the input set, as a list of lists
     """
-    x, ans = len(set_), []
-    for i in range(1 << x):
-        temp = []
-        [temp.append(set_[j])
-         for j in range(x)
-         if (i & (1 << j))]
-        ans.append(temp)
-    return ans
 ```
 
 ### `odd_ones_out`
@@ -308,9 +297,4 @@ def odd_ones_out(old_: str, new_: str) -> str:
     :param new_: The second input string
     :return: The characters in string 'new_' that are not present in string 'old_'
     """
-    temp = new_
-    [temp := temp.replace(i, '', 1)
-     for i in old_
-     if i in temp]
-    return temp
 ```
