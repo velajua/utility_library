@@ -4,12 +4,12 @@ import uuid
 import redis
 import pickle
 
-from typing import Union, Optional, Any
+from typing import Union, Optional, Any, List
 
 
 def redis_set(key: str, value: str,
               replace: Optional[bool]=True,
-              days: Optional[int]=None):
+              days: Optional[int]=None) -> bool:
     """
     Set the value of the key in Redis. If the key already exists,
     the value is either replaced or not, depending on the value
@@ -61,7 +61,7 @@ def redis_ttl(key: str) -> int:
 
 def redis_set_dill(key: str, df: Any,
                    replace: Optional[bool]=True,
-                   days: Optional[int]=None):
+                   days: Optional[int]=None) -> bool:
     """
     Store a Python object using dill serialization in Redis
     :param key: Key of the object to be stored
@@ -160,9 +160,166 @@ def cache_redis_with_key_check(key: str, value: str,
     return key
 
 
+def redis_delete(key: str) -> Optional[Any]:
+    """
+    Deletes the value of a key in Redis.
+
+    :param key: Key of the value to be deleted
+    :return: The value of the key that was deleted.
+    """
+    key_ = redis_get(key)
+    redis_client.delete(key)
+    return key_
+
+
+def redis_incr(key: str, amount: int = 1,
+               replace: Optional[bool]=True,
+               days: Optional[int]=None) -> bool:
+    """
+    Checks if the key is used, and if it is to be replaced
+    Increments the value of a key in Redis by the specified
+    amount. Expires the key by days.
+
+    :param key: Key of the value to be incremented
+    :param amount: Amount to increment the value
+        (default 1)
+    :param replace: If True, replace the value
+      if the key already exists.
+                    If False, return False
+      if the key already exists.
+                    Default is True.
+    :param days: Expiration time in days,
+      if None it will never expire
+    :return: True if the value was successfully set,
+      False if the key already exists and `replace`
+      is False
+    """
+    if redis_client.exists(key) and not replace:
+        return False
+    redis_client.incr(key, amount)
+    if days:
+        redis_client.expire(key, 60 * 60 * 24 * days)
+    return True
+
+
+def redis_decr(key: str, amount: int = 1,
+               replace: Optional[bool]=True,
+               days: Optional[int]=None) -> bool:
+    """
+    Checks if the key is used, and if it is to be replaced
+    Increments the value of a key in Redis by the specified
+    amount. Expires the key by days.
+
+    :param key: Key of the value to be incremented
+    :param amount: Amount to increment the value
+        (default 1)
+    :param replace: If True, replace the value
+      if the key already exists.
+                    If False, return False
+      if the key already exists.
+                    Default is True.
+    :param days: Expiration time in days,
+      if None it will never expire
+    :return: True if the value was successfully set,
+      False if the key already exists and `replace`
+      is False
+    """
+    if redis_client.exists(key) and not replace:
+        return False
+    redis_client.decr(key, amount)
+    if days:
+        redis_client.expire(key, 60 * 60 * 24 * days)
+    return True
+
+
+def redis_perxpire(key: str, timestamp: Union[int, None] = None,
+                 persist: bool = False) -> bool:
+    """
+    Set a time-to-live (TTL) for a key based on a Unix timestamp.
+    If the timestamp is None and the persist flag is True,
+    remove the TTL, making the key persistent.
+    Returns True if the TTL was set or removed,
+    False if the key does not exist.
+    
+    :param key: The key to set the TTL for.
+    :param timestamp: The Unix timestamp for the TTL.
+        If None and persist is True, remove the TTL.
+    :param persist: A flag indicating whether to remove the TTL
+        (if True) or set it (if False).
+    :return: True if the TTL was set or removed,
+        False if the key does not exist.
+    """
+    if persist:
+        return redis_client.persist(key)
+    elif timestamp is not None:
+        return redis_client.expireat(key, timestamp)
+    else:
+        return False
+
+
+def redis_get_keys(pattern: str = None,
+                   delete_keys: bool = False) -> List[str]:
+    """
+    Get a list of keys in Redis that match a given pattern.
+
+    Args:
+        pattern (str, optional): Pattern for matching keys.
+        Defaults to None.
+        delete_keys (bool, optional): Whether to delete all keys.
+        Defaults to False.
+    Returns:
+        List[str]: List of key strings.
+    """
+    keys = redis_client.keys(
+        pattern=pattern) if pattern else redis_client.keys()
+    key_list = [key.decode() for key in keys]
+    if delete_keys:
+        redis_client.delete(*key_list)
+    return key_list
+
+
+def redis_rename(key: str, new_key: str, overwrite: bool = False,
+                 delete_old: bool = False) -> List[bool]:
+    """
+    Rename a key in Redis. If the new key already exists,
+    the operation will fail
+    unless the overwrite parameter is set to True.
+    Can delete the old key.
+
+    Args:
+        key (str): The existing key to rename.
+        new_key (str): The new name for the key.
+        overwrite (bool, optional): If True,
+            overwrite the new key if it already exists.
+            Defaults to False.
+        delete_old (bool, optional): If True,
+            delete the old key after it has been renamed.
+            Defaults to False.
+
+    Returns:
+        List[bool]: List[1] True if the key was successfully renamed,
+            False otherwise.
+                    List[2] True if the key was successfully deleted,
+            False otherwise.
+    """
+    if redis_client.exists(new_key):
+        if not overwrite and not delete_old:
+            return [False, False]
+        elif not overwrite and delete_old:
+            return [False, redis_client.delete(key)]
+    else:
+        if delete_old:
+            return [redis_client.rename(key, new_key, nx=not overwrite),
+                    redis_client.delete(key)]
+        else:
+            return [redis_client.rename(key, new_key, nx=not overwrite),
+                    False]
+
+
 file_name = os.path.splitext(os.path.basename(os.path.abspath(__file__)))[0]
 dir_name = os.path.basename(os.path.dirname(os.path.abspath(__file__)))
 if __name__ == "__main__" or __name__ == f"{dir_name}.{file_name}":
+
     redis_port = 6379 # default port
     redis_host = "localhost" # ip of redis host
 
