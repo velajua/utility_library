@@ -29,5 +29,16 @@ Redis can be accessed through a number of client libraries in various programmin
 Overall, Redis is a versatile and powerful tool for managing and storing data, and can be used in a wide range of applications, including web applications, mobile apps, and Internet of Things (IoT) devices.
 
 - [`selenium_utils`](selenium_utils/README.md): A module for automating web browsers with Selenium
+
+Selenium is a popular open-source framework for automating web browsers. It provides a set of tools and APIs to automate web browsers and perform various tasks, such as testing web applications, web scraping, and web automation.
+
+Selenium is primarily used to automate testing of web applications. It allows developers and testers to write automated test scripts in various programming languages, such as Python, Java, C#, and Ruby. These test scripts can then be executed on different web browsers, such as Chrome, Firefox, Safari, and Internet Explorer, to test the functionality of the web application under different conditions.
+
+Selenium provides a set of APIs to interact with web elements, such as buttons, links, text fields, and dropdowns. It can simulate user actions such as clicking, typing, and scrolling. Selenium also provides the ability to capture screenshots, manage cookies and sessions, and handle pop-ups and alerts.
+
+Selenium can be used to perform web scraping, where it can extract data from websites by navigating to web pages, extracting data from HTML elements, and saving the data in a structured format, such as CSV or JSON.
+
+Overall, Selenium is a powerful tool for web automation and testing, and is widely used in the software development industry. It provides a flexible and reliable way to automate repetitive tasks and test the functionality of web applications.
+
 - [`slack_utils`](slack_utils/README.md): A module for sending messages to Slack
 - [`utils`](utils/README.md): A general-purpose module with various helper functions and decorators
