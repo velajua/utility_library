@@ -3,6 +3,16 @@
 A module to create a Chrome webdriver with specified options and perform actions on web elements.
 This module uses a webdriver manager to install the chromedriver. Thus, no chrome driver is needed in the folder.
 
+Selenium is a popular open-source framework for automating web browsers. It provides a set of tools and APIs to automate web browsers and perform various tasks, such as testing web applications, web scraping, and web automation.
+
+Selenium is primarily used to automate testing of web applications. It allows developers and testers to write automated test scripts in various programming languages, such as Python, Java, C#, and Ruby. These test scripts can then be executed on different web browsers, such as Chrome, Firefox, Safari, and Internet Explorer, to test the functionality of the web application under different conditions.
+
+Selenium provides a set of APIs to interact with web elements, such as buttons, links, text fields, and dropdowns. It can simulate user actions such as clicking, typing, and scrolling. Selenium also provides the ability to capture screenshots, manage cookies and sessions, and handle pop-ups and alerts.
+
+Selenium can be used to perform web scraping, where it can extract data from websites by navigating to web pages, extracting data from HTML elements, and saving the data in a structured format, such as CSV or JSON.
+
+Overall, Selenium is a powerful tool for web automation and testing, and is widely used in the software development industry. It provides a flexible and reliable way to automate repetitive tasks and test the functionality of web applications.
+
 ## Installation
 
 To install the required packages, run:
