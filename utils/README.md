@@ -2,6 +2,10 @@
 
 A module with various decorators and everyday functions.
 
+In Python, a decorator is a special type of function that can modify or enhance the behavior of another function or class without changing its source code. A decorator is a higher-order function that takes another function as input and returns a new function that adds some additional behavior to the original function. Decorators are a key feature of Python and are commonly used in many frameworks and libraries.
+
+Decorators are defined using the "@" symbol followed by the name of the decorator function. The decorator function takes a single argument, which is the function or class being decorated. The decorator function then returns a new function or class that wraps the original function or class and adds some additional behavior.
+
 ## Installation
 
 To install the required packages, run:
