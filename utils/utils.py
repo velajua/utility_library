@@ -3,7 +3,6 @@ import re
 import sys
 import time
 import difflib
-import unidecode
 import threading
 import _thread as thread
 
@@ -287,20 +286,6 @@ def find_rank(st: str) -> int:
     return rank
 
 
-def remove_symbols(x: str) -> str:
-    """
-    A function that removes symbols from a string
-    :param x: The input string
-    :type x: str
-    :return: The input string with symbols removed
-    :rtype: str
-    """
-    # Removes accents and other diacritical marks
-    # from the string
-    x = unidecode.unidecode(x)
-    return re.sub(r'[^\w ]', '', x)
-
-
 def check_value(x: any, default: any = None
                 ) -> Tuple[any, bool]:
     """
@@ -359,17 +344,6 @@ def float_safe_cast(x: any) -> Union[float, None]:
     return None
 
 
-def remove_spaces(x: any) -> str:
-    """
-    A function that removes all whitespaces from a string
-    :param x: The value to remove spaces from
-    :type x: any
-    :return: The input value with all spaces removed
-    :rtype: str
-    """
-    return re.sub(r'\s', '', str(x))
-
-
 def word_replacer(sentence: str,
                   data: Dict[str, str]) -> str:
     """
@@ -387,20 +361,6 @@ def word_replacer(sentence: str,
         sentence = re.sub(fr'(?:\s+|^){k}(?:\s+|$)',
                           f' {v} ', sentence)
     return sentence.strip()
-
-
-def separate_numbers_letters(x: str) -> str:
-    """
-    A function that separates numbers and letters
-    in a string by adding a space between them
-    :param x: The input string
-    :type x: str
-    :return: The modified string with numbers and
-        letters separated by a space
-    :rtype: str
-    """
-    return ' '.join(re.findall(
-        '[0-9]+|[a-zA-Z]+', x))
 
 
 def combination_powerset(set_: set) -> set:
