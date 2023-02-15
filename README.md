@@ -12,6 +12,7 @@ The following modules are included in this repository:
 
 - [`ip_utils`](ip_utils/README.md): A module for working with IP addresses
 - [`redis_utils`](redis_utils/README.md): A module for working with the Redis database
+- [`regex_utils`](regex_utils/README.md): A module with regex functions to validate strings, clean them and create validators.
 - [`selenium_utils`](selenium_utils/README.md): A module for automating web browsers with Selenium
 - [`slack_utils`](slack_utils/README.md): A module for sending messages to Slack
 - [`utils`](utils/README.md): A general-purpose module with various helper functions and decorators
