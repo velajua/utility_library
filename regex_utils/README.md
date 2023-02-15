@@ -2,7 +2,13 @@
 
 A module with regex functions to validate strings, clean them and create validators.
 
+Regular expressions (regex) are a sequence of characters that form a pattern. They are used to search, manipulate, and validate text. A regex engine takes a regex pattern and applies it to a string, looking for matches or specific patterns within the string.
 
+Regex allows you to perform complex text searches and manipulations with just a few characters. It can match patterns such as digits, letters, specific characters, and more. You can also use special characters such as the dot (.) to match any character, or the asterisk (*) to match zero or more occurrences of the preceding character.
+
+Regex patterns are created using a set of metacharacters, which have special meanings. For example, the caret (^) is used to match the start of a string, and the dollar sign ($) is used to match the end of a string. These metacharacters can be combined with other characters to create more complex patterns.
+
+Regex is widely used in programming languages and text editors for tasks such as search and replace, input validation, and data parsing. It is a powerful tool for working with text and can be a valuable skill for anyone working with data or programming.
 
 ## Installation
 
