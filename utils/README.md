@@ -153,20 +153,6 @@ def find_rank(st: str) -> int:
     """
 ```
 
-### `remove_symbols`
-
-A function that removes symbols from a string.
-
-```python
-def remove_symbols(x: str) -> str:
-    """
-    :param x: The input string
-    :type x: str
-    :return: The input string with symbols removed
-    :rtype: str
-    """
-```
-
 ### `check_value`
 
 A function that checks if a value is not None, returns a tuple containing the value and a boolean.
@@ -217,20 +203,6 @@ def float_safe_cast(x: any) -> Union[float, None]:
     """
 ```
 
-### `remove_spaces`
-
-A function that removes all whitespaces from a string.
-
-```python
-def remove_spaces(x: any) -> str:
-    """
-    :param x: The value to remove spaces from
-    :type x: any
-    :return: The input value with all spaces removed
-    :rtype: str
-    """
-```
-
 ### `word_replacer`
 
 A function that replaces words in a sentence with the corresponding values from the provided data dictionary.
@@ -245,21 +217,6 @@ def word_replacer(sentence: str,
         replaced as keys and their replacement values as values
     :type data: Dict[str, str]
     :return: The modified sentence
-    :rtype: str
-    """
-```
-
-### `separate_numbers_letters`
-
-A function that separates numbers and letters in a string by adding a space between them.
-    
-```python
-def separate_numbers_letters(x: str) -> str:
-    """
-    :param x: The input string
-    :type x: str
-    :return: The modified string with numbers and
-        letters separated by a space
     :rtype: str
     """
 ```
