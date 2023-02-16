@@ -259,3 +259,46 @@ def odd_ones_out(old_: str, new_: str) -> str:
     :return: The characters in string 'new_' that are not present in string 'old_'
     """
 ```
+
+### `big_bang_substring`
+
+Returns the winning player (vowel or consonant) and their score
+in a game called Big Bang Substring. In the game, given a string,
+each player takes turns selecting substrings that start with a vowel
+or consonant. The score of a player is the sum of the lengths of
+all the substrings they select.
+    
+```python
+def big_bang_substring(string: str) -> Tuple[str, int]:
+    """
+    Args:
+        string (str): A string that the game is played with.
+    Returns:
+        A tuple containing:
+            - A string indicating the winning player
+                (either 'VOWEL', 'CONSONANT', or 'DRAW').
+            - An integer representing the winning player's score.
+    """
+```
+
+### `big_bang_substring_detail`
+
+Returns the winning player (vowel or consonant) and their score in a
+game called Big Bang Substring. In the game, given a string, each player
+takes turns selecting substrings that start with a vowel or consonant.
+The score of a player is the sum of the lengths of all the substrings they select.
+    
+```python
+def big_bang_substring_detail(string: str) -> Tuple[str, int, List[str]]:
+    """
+    Args:
+        string (str): A string that the game is played with.
+    Returns:
+        A tuple containing:
+            - A string indicating the winning player
+                (either 'VOWEL', 'CONSONANT', or 'DRAW').
+            - An integer representing the winning player's score.
+            - A list of all substrings used by the winning player.
+
+    """
+```
