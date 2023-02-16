@@ -356,8 +356,6 @@ def remove_symbols(x: str) -> str:
     :return: The input string with symbols removed
     :rtype: str
     """
-    # Removes accents and other diacritical marks
-    # from the string
     x = unidecode.unidecode(x)
     return re.sub(r'[^\w ]', '', x)
 
