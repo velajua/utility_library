@@ -411,6 +411,74 @@ def odd_ones_out(old_: str, new_: str) -> str:
     return temp
 
 
+def big_bang_substring(string: str) -> Tuple[str, int]:
+    """
+    Returns the winning player (vowel or consonant) and their score
+    in a game called Big Bang Substring. In the game, given a string,
+    each player takes turns selecting substrings that start with a vowel
+    or consonant. The score of a player is the sum of the lengths of
+    all the substrings they select.
+    Args:
+        string (str): A string that the game is played with.
+
+    Returns:
+        A tuple containing:
+            - A string indicating the winning player
+                (either 'VOWEL', 'CONSONANT', or 'DRAW').
+            - An integer representing the winning player's score.
+    """
+    player1 = 0
+    player2 = 0
+    for i in range(len(string)):
+        if string[i] in 'AEIOU':
+            player1 += len(string)-i
+        else:
+            player2 += len(string)-i
+    if player1 > player2:
+        return 'VOWEL', player1
+    elif player2 > player1:
+        return 'CONSONANT', player2
+    else:
+        return "DRAW"
+
+
+def big_bang_substring_detail(string: str) -> Tuple[str, int, List[str]]:
+    """
+    Returns the winning player (vowel or consonant) and their score in a
+    game called Big Bang Substring. In the game, given a string, each player
+    takes turns selecting substrings that start with a vowel or consonant.
+    The score of a player is the sum of the lengths of all the substrings they select.
+    Args:
+        string (str): A string that the game is played with.
+
+    Returns:
+        A tuple containing:
+            - A string indicating the winning player
+                (either 'VOWEL', 'CONSONANT', or 'DRAW').
+            - An integer representing the winning player's score.
+            - A list of all substrings used by the winning player.
+
+    """
+    string = string.upper()
+    vowels = 'AEIOU'
+    subs_1, subs_2 = set(), set()
+    for i in range(1, len(string)+1):
+        for substring in combinations(string, i):
+            temp = ''.join(substring)
+            if temp[0] in vowels:
+                subs_1.add(temp)
+            else:
+                subs_2.add(temp)
+    score_1 = sum(string.count(sub) for sub in subs_1)
+    score_2 = sum(string.count(sub) for sub in subs_2)
+    if score_1 > score_2:
+        return 'VOWEL', score_1, [i for i in subs_1 if i in string]
+    elif score_2 > score_1:
+        return 'CONSONANT', score_2, [i for i in subs_2 if i in string]
+    else:
+        return 'DRAW'
+
+
 file_name = os.path.splitext(os.path.basename(os.path.abspath(__file__)))[0]
 dir_name = os.path.basename(os.path.dirname(os.path.abspath(__file__)))
 if __name__ == "__main__" or __name__ == f"{dir_name}.{file_name}":
