@@ -19,3 +19,54 @@ pip install -r requirements.txt
 ## Usage
 
 ### `validator`
+
+A decorator function that takes a regular expression pattern and returns a
+function that checks if the given pattern matches the input string.
+If `extract` is True, the function returns the matching text,
+otherwise it returns True if there is a match, False otherwise.
+    
+```python
+def validator(pattern: str, extract: bool = False) -> callable:
+    """
+    Args:
+    - pattern (str): A regular expression pattern
+    - extract (bool): Whether to extract the matching text
+        or not (default: False)
+    Returns:
+    - callable: A function that checks if the given pattern
+        matches the input string
+    Examples:
+    >>> @validator(r'^\d+$')
+    ... def is_number(num: str) -> bool:
+    ...     return True
+    >>> is_number('123')
+    True
+    >>> is_number('abc')
+    False
+    """
+```
+
+### `make_validator`
+
+A function that takes a regular expression pattern and returns a
+function that checks if the given pattern matches the input string.
+If `extract` is True, the function returns the matching text,
+otherwise it returns True if there is a match, False otherwise.
+    
+```python
+def make_validator(pattern: str) -> callable:
+    """
+    Args:
+    - pattern (str): A regular expression pattern
+    Returns:
+    - callable: A function that checks if the given pattern
+        matches the input string
+    Examples:
+    >>> is_alpha = make_validator(r'^[a-zA-Z]+$')
+    >>> is_alpha('abcd')
+    True
+    >>> is_alpha('123')
+    False
+    """
+```
+
