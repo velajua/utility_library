@@ -1,0 +1,51 @@
+{
+  "ones": [
+    "Zero",
+    "One",
+    "Two",
+    "Three",
+    "Four",
+    "Five",
+    "Six",
+    "Seven",
+    "Eight",
+    "Nine"
+  ],
+  "teens": [
+    "Ten",
+    "Eleven",
+    "Twelve",
+    "Thirteen",
+    "Fourteen",
+    "Fifteen",
+    "Sixteen",
+    "Seventeen",
+    "Eighteen",
+    "Nineteen"
+  ],
+  "tens": [
+    "Twenty",
+    "Thirty",
+    "Forty",
+    "Fifty",
+    "Sixty",
+    "Seventy",
+    "Eighty",
+    "Ninety",
+    "Hundred"
+  ],
+  "values": [
+    "",
+    "Thousand",
+    "Million",
+    "Billion",
+    "Trillion",
+    "Quadrillion",
+    "Quintillion",
+    "Sextillion",
+    "Septillion",
+    "Octillion",
+    "Nonillion",
+    "Decillion"
+  ]
+}
