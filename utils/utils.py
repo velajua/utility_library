@@ -526,6 +526,195 @@ def numbers_to_words(number: Union[str, int]) -> str:
     return final_words.strip()
 
 
+def make_trie(*words: str) -> dict:
+    """
+    Returns a trie data structure built from the given words.
+
+    Args:
+    - words: Variable length argument list of words to add to the trie.
+
+    Returns:
+    - A dictionary representing the root of the trie.
+    """
+    current_dict = dict()
+    for word in words:
+        current_dict = current_dict
+        for letter in word:
+            current_dict = current_dict.setdefault(letter, {})
+        current_dict['_end_'] = '_end_'
+    return current_dict
+
+
+def in_trie_bool(trie: dict, word: str) -> bool:
+    """
+    Returns True if the given word is in the trie, False otherwise.
+
+    Args:
+    - trie: A dictionary representing the root of the trie.
+    - word: The word to search for in the trie.
+
+    Returns:
+    - A boolean value indicating if the word is in the trie.
+    """
+    current_dict = trie
+    for letter in word:
+        if letter not in current_dict:
+            return False
+        current_dict = current_dict[letter]
+    return '_end_' in current_dict
+
+
+def insert_trie(trie: dict, word: str) -> bool:
+    """
+    Inserts the given word into the trie.
+
+    Args:
+    - trie: A dictionary representing the root of the trie.
+    - word: The word to insert into the trie.
+
+    Returns:
+    - A boolean value indicating if the word was successfully inserted.
+    """
+    for letter in word:
+        trie = trie.setdefault(letter, {})
+    trie.setdefault("_end_", "_end_")
+    return True
+
+
+def trie_starts_with(trie: dict, prefix: str) -> bool:
+    """
+    Returns True if the trie contains any words that start with the
+    given prefix, False otherwise.
+
+    Args:
+    - trie: A dictionary representing the root of the trie.
+    - prefix: The prefix to search for in the trie.
+
+    Returns:
+    - A boolean value indicating if the trie contains words starting
+        with the given prefix.
+    """
+    for letter in prefix:
+        if letter not in trie:
+            return False
+        trie = trie[letter]
+    return True
+
+
+def count_words_trie(trie: dict, prefix: str = '') -> int:
+    """
+    Returns the number of words in the trie with the given prefix.
+
+    Args:
+    - trie: A dictionary representing the root of the trie.
+    - prefix: The prefix to count words for in the trie. Defaults to an
+        empty string.
+
+    Returns:
+    - An integer representing the number of words in the trie with the
+        given prefix.
+    """
+    if not trie:
+        return 0
+    if prefix:
+        for letter in prefix:
+            if letter not in trie:
+                return 0
+            trie = trie[letter]
+    count = 0
+    for key in trie:
+        if key == '_end_':
+            count += 1
+        else:
+            count += count_words_trie(trie[key])
+    return count
+
+
+def remove_trie(trie: Dict[str, any], word: str) -> bool:
+    """
+    Remove a word from the trie.
+
+    Args:
+        trie: A dictionary representing the trie.
+        word: The word to be removed from the trie.
+
+    Returns:
+        A boolean indicating whether the word was successfully removed.
+    """
+    if not word:
+        if '_end_' in trie:
+            del trie['_end_']
+            return True
+        else:
+            return False
+    letter = word[0]
+    if letter in trie and remove_trie(trie[letter], word[1:]):
+        if not trie[letter]:
+            del trie[letter]
+        if not trie:
+            return True
+        return False
+    else:
+        return False
+
+
+def get_trie_words(trie: Dict[str, any], type_: str = 'list',
+                   prefix: str = '', first_: bool = True):
+    """
+    Return a list or tuple of words in the trie, optionally filtered
+    by a prefix.
+
+    Args:
+        trie: A dictionary representing the trie.
+        type_: A string indicating the type of results to return.
+            Either 'list' or 'tuple'.
+        prefix: A string representing a prefix to filter the results by.
+        first_: A boolean indicating whether this is the first function call
+            (used for internal recursion).
+
+    Returns:
+        A list or tuple of words in the trie,
+        depending on the value of `type_`.
+        If `type_` is 'tuple', each element of the result
+        is a tuple containing a word and a boolean indicating
+        whether the word starts with the specified prefix.
+    """
+    if type_ not in ['list', 'tuple']:
+        return
+    results = []
+    for key in trie:
+        if key == '_end_':
+            results.append('')
+        else:
+            words = get_trie_words(trie[key], first_=False)
+            for word in words:
+                results.append(key + word)
+    if first_ and type_ == 'tuple':
+        results = [(i, i.startswith(prefix)) for i in results]
+    elif first_ and type_ == 'list':
+        results = [i for i in results if i.startswith(prefix)]
+    return results
+
+
+def autocomplete_trie(trie: Dict[str, any], prefix: str) -> list:
+    """
+    Return a list of all words in the trie that start with a given prefix.
+
+    Args:
+        trie: A dictionary representing the trie.
+        prefix: A string representing the prefix to search for.
+
+    Returns:
+        A list of all words in the trie that start with the given prefix.
+    """
+    current_dict = trie.copy()
+    for letter in prefix:
+        current_dict = current_dict.get(letter)
+        if current_dict is None:
+            return []
+    return [prefix + i for i in get_trie_words(current_dict)]
+
+
 file_name = os.path.splitext(os.path.basename(os.path.abspath(__file__)))[0]
 dir_name = os.path.basename(os.path.dirname(os.path.abspath(__file__)))
 if __name__ == "__main__" or __name__ == f"{dir_name}.{file_name}":
