@@ -1,6 +1,7 @@
 import os
 import re
 import sys
+import json
 import time
 import difflib
 import threading
@@ -477,6 +478,52 @@ def big_bang_substring_detail(string: str) -> Tuple[str, int, List[str]]:
         return 'CONSONANT', score_2, [i for i in subs_2 if i in string]
     else:
         return 'DRAW'
+
+
+def numbers_to_words(number: Union[str, int]) -> str:
+    """
+    Convert a given number to words.
+    Args:
+        number: An integer number to be converted to words.
+
+    Returns:
+        A string representing the given number in words.
+    """
+    if not str(number).isnumeric():
+        return 'Input must be numeric.'
+    length = len(str(number))
+    if length > 36:
+        return 'This program supports a maximum of 36 digit numbers.'
+
+    with open('numbers.json', 'r') as f:
+        numbers = json.load(f)
+
+    def create_segment(number, index):
+        if number == '0':
+            return 'Zero'
+        number = number.zfill(3)
+        hundreds_digit, tens_digit, ones_digit = [int(x) for x in number]
+        words = '' if number[0] == '0' else numbers['ones'][hundreds_digit]
+        [words := words + ' Hundred ' if words != '' else '']
+        [(words := words + numbers['tens'][tens_digit - 2] + ' ' + numbers[
+            'ones'][ones_digit])
+         if tens_digit > 1 else (words := words + numbers['teens'][
+            ((tens_digit + ones_digit) % 10) - 1])
+         if tens_digit == 1 else (words := words + numbers['ones'][
+             ones_digit]) if tens_digit == 0 else '']
+        [(words := words[:-len('Zero')]) if words.endswith('Zero')
+         else (words := words + ' ')]
+        [words := words + numbers['values'][index] if len(words) != 0 else '']
+        return words
+
+    count = length // 3 if length % 3 == 0 else length // 3 + 1
+    copy, words, final_words = count, [], ''
+    for i in range(length - 1, -1, -3):
+        words.append(create_segment(str(number)[
+            0 if i - 2 < 0 else i - 2: i + 1], copy - count))
+        count -= 1
+    [(final_words := final_words + (s + ' ')) for s in reversed(words)]
+    return final_words.strip()
 
 
 file_name = os.path.splitext(os.path.basename(os.path.abspath(__file__)))[0]
