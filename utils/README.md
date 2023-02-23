@@ -302,3 +302,18 @@ def big_bang_substring_detail(string: str) -> Tuple[str, int, List[str]]:
 
     """
 ```
+
+### `numbers_to_words`
+
+Convert a given number to words.
+
+```python
+def numbers_to_words(number: Union[str, int]) -> str:
+    """
+    Args:
+        number: An integer number to be converted to words.
+
+    Returns:
+        A string representing the given number in words.
+    """
+```
