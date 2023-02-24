@@ -356,7 +356,7 @@ def remove_symbols(x: str) -> str:
     :return: The input string with symbols removed
     :rtype: str
     """
-    x = unidecode.unidecode(x)
+    x = unidecode(x) if x else ''
     return re.sub(r'[^\w ]', '', x)
 
 
