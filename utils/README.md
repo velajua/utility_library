@@ -318,6 +318,21 @@ def numbers_to_words(number: Union[str, int]) -> str:
     """
 ```
 
+### `is_leap_year`
+
+Returns True if the given year is a leap year, False otherwise.
+
+```python
+def is_leap_year(year: int) -> bool:
+    """    
+    Args:
+    - year: An integer representing the year to check
+    
+    Returns:
+    - A boolean value indicating whether the given year is a leap year or not
+    """
+```
+
 ## Tries
 
 ### `make_trie`
