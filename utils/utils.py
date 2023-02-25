@@ -526,6 +526,24 @@ def numbers_to_words(number: Union[str, int]) -> str:
     return final_words.strip()
 
 
+def is_leap_year(year: int) -> bool:
+    """
+    Returns True if the given year is a leap year, False otherwise.
+    
+    A leap year is a year that is divisible by 4 but not divisible by 100,
+    or a year that is divisible by 400.
+    
+    Args:
+    - year: An integer representing the year to check
+    
+    Returns:
+    - A boolean value indicating whether the given year is a leap year or not
+    """
+    return True if year % 4 == 0 and year % 100 != 0 else True if year % 400 == 0 else False
+
+# Tries
+
+
 def make_trie(*words: str) -> dict:
     """
     Returns a trie data structure built from the given words.
