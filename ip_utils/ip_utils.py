@@ -1,8 +1,10 @@
+import os
 import re
+import sys
 import requests
 import traceback
 
-from typing import Union
+from typing import Iterator, Union, Dict, List
 from bs4 import BeautifulSoup
 
 
