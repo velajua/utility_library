@@ -1,6 +1,6 @@
 import re
-import unidecode
 
+from unidecode import unidecode
 from typing import Union, Optional
 
 
