@@ -71,7 +71,7 @@ def getDriver(*mods: str) -> webdriver.Chrome:
 
 
 def driver_wait(driver: WebDriver, time: int,
-                xpath: str) -> Union[None, bool]:
+                xpath: str, clickable=True) -> Union[None, bool]:
     """
     Wait for an element to be clickable
 
@@ -86,7 +86,9 @@ def driver_wait(driver: WebDriver, time: int,
     """
     try:
         WebDriverWait(driver, time).until(
-            EC.element_to_be_clickable((By.XPATH, xpath)))
+            EC.element_to_be_clickable((By.XPATH, xpath))
+            if clickable
+            else EC.presence_of_element_located((By.XPATH, xpath)))
         return True
     except Exception:
         print(f"Element {xpath} not found.")
