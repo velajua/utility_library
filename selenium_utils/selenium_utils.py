@@ -186,10 +186,16 @@ def page_interaction(driver: WebDriver, action: str,
         return False
 
 
-def find_element_data(driver, contains_text='', contains_class='',
-                      contains_id='', contains_src='', contains_style='',
-                      contains_name='', return_element=False, tag_name='*',
-                      return_xpath=False, time=30) -> Union[
+def find_element_data(driver: WebDriver, contains_text: Union[str, List[str]] = '',
+                      contains_class: Union[str, List[str]] = '',
+                      contains_id: Union[str, List[str]] = '',
+                      contains_src: Union[str, List[str]] = '',
+                      contains_style: Union[str, List[str]] = '',
+                      contains_name: Union[str, List[str]] = '',
+                      contains_title: Union[str, List[str]] = '',
+                      contains_alt: Union[str, List[str]] = '',
+                      return_element: bool = False, tag_name: str = '*',
+                      return_xpath: bool = False, time: int = 30) -> Union[
                           Dict[str, Union[str, Dict[str, str]]],
                           List[selenium.webdriver.remote.webelement.WebElement],
                           str, List]:
@@ -218,11 +224,19 @@ def find_element_data(driver, contains_text='', contains_class='',
             the XPath string is returned.
     """
     tags = [contains_text, contains_class, contains_id, contains_src,
-            contains_style, contains_name]
-    prefix = ['text()', '@class', '@id', '@src', '@style', '@name']
+            contains_style, contains_name, contains_title, contains_alt]
+    prefix = ['text()', '@class', '@id', '@src', '@style', '@name',
+              '@title', '@alt']
     
-    xpath_ = f'''//{tag_name}[{" and ".join([f"contains{k}"
-        for k in [(prefix[i], j) for i, j in enumerate(tags) if j]]) }]'''
+    xpath_fragments = []
+    for i, j in enumerate(tags):
+        if isinstance(j, list):
+            xpath_fragments.append(' and '.join([
+                f"contains({prefix[i]}, '{k}')" for k in j]))
+        elif j:
+            xpath_fragments.append(f"contains({prefix[i]}, '{j}')")
+    
+    xpath_ = f"//{tag_name}[{' and '.join(xpath_fragments)}]"
     [xpath_ := xpath_.replace(f"'{i}'", i) for i in prefix]
     driver_wait(driver, time, xpath_)
     elements_ = driver.find_elements(By.XPATH, xpath_)
