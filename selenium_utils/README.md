@@ -125,3 +125,64 @@ def page_interaction(driver: WebDriver, action: str,
     :rtype: Union[bool, str]
     """
 ```
+
+### `find_element_data`
+
+Find and return data about HTML elements on a webpage using Selenium WebDriver.
+
+```python
+def find_element_data(driver: WebDriver, contains_text: Union[str, List[str]] = '',
+                      contains_class: Union[str, List[str]] = '',
+                      contains_id: Union[str, List[str]] = '',
+                      contains_src: Union[str, List[str]] = '',
+                      contains_style: Union[str, List[str]] = '',
+                      contains_name: Union[str, List[str]] = '',
+                      contains_title: Union[str, List[str]] = '',
+                      contains_alt: Union[str, List[str]] = '',
+                      return_element: bool = False, tag_name: str = '*',
+                      return_xpath: bool = False, time: int = 30) -> Union[
+                          Dict[str, Union[str, Dict[str, str]]],
+                          List[selenium.webdriver.remote.webelement.WebElement],
+                          str, List]:
+    """
+    Args:
+        driver: An instance of a Selenium WebDriver.
+        contains_?: Optional ? that the element should contain.
+        return_element: Optional flag to indicate whether to return the
+            element(s) found or not. Default is False.
+        return_xpath: Optional flag to indicate whether to return the XPath
+            of the element(s) found or not. Default is False.
+
+    Returns:
+        If neither `return_element` nor `return_xpath` is True, a list of
+            dictionaries with data about the element(s) found.
+        Each dictionary has the keys 'tag_name', 'text', and the attributes
+            of the element.
+        If `return_element` is True and only one element is found,
+            the element object is returned.
+        If `return_element` is True and multiple elements are found,
+            a list of element data objects is returned.
+        If `return_xpath` is True and only one element is found,
+            the XPath string is returned.
+    """
+```
+
+### `cookie_manager`
+
+Function to manage cookies in a Selenium WebDriver session.
+
+```python
+def cookie_manager(driver: WebDriver, path: str = 'cookies.pkl',
+                   get_: bool = False) -> None:
+    """
+    Args:
+        driver (WebDriver): A Selenium WebDriver instance.
+        path (str, optional): The path to the file where the
+            cookies are saved. Defaults to 'cookies.pkl'.
+        get_ (bool, optional): If True, saves the cookies
+            from the WebDriver session to the specified file. 
+                              If False, loads the cookies
+            from the specified file and adds them to the WebDriver session. 
+                              Defaults to False.
+    """
+```
