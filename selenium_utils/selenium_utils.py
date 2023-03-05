@@ -90,8 +90,8 @@ def driver_wait(driver: WebDriver, time: int,
         return True
     except Exception:
         print(f"Element {xpath} not found.")
-        driver.quit()
-        sys.exit()
+        # driver.quit()
+        # sys.exit()
 
 
 def click_element(driver: WebDriver,
@@ -185,7 +185,9 @@ def page_interaction(driver: WebDriver, action: str,
 
 
 def find_element_data(driver, contains_text='', contains_class='',
-                      return_element=False, return_xpath=False) -> Union[
+                      contains_id='', contains_src='', contains_style='',
+                      contains_name='', return_element=False,
+                      return_xpath=False, time=30) -> Union[
                           Dict[str, Union[str, Dict[str, str]]],
                           List[selenium.webdriver.remote.webelement.WebElement],
                           str, List]:
@@ -195,8 +197,7 @@ def find_element_data(driver, contains_text='', contains_class='',
 
     Args:
         driver: An instance of a Selenium WebDriver.
-        contains_text: Optional text that the element should contain.
-        contains_class: Optional class name that the element should have.
+        contains_?: Optional ? that the element should contain.
         return_element: Optional flag to indicate whether to return the
             element(s) found or not. Default is False.
         return_xpath: Optional flag to indicate whether to return the XPath
@@ -214,23 +215,18 @@ def find_element_data(driver, contains_text='', contains_class='',
         If `return_xpath` is True and only one element is found,
             the XPath string is returned.
     """
-    if contains_text and contains_class:
-        xpath_ = f'//*[contains(text(), "{contains_text}") and contains(@class, "{contains_class}")]'
-        elements_ = driver.find_elements(By.XPATH, xpath_)
-        if return_xpath and len(elements_) == 1:
-            return xpath_
-    elif contains_text:
-        xpath_ = f'//*[contains(text(), "{contains_text}")]'
-        elements_ = driver.find_elements(By.XPATH, xpath_)
-        if return_xpath and len(elements_) == 1:
-            return xpath_
-    elif contains_class:
-        xpath_ = f'//*[contains(@class, "{contains_class}")]'
-        elements_ = driver.find_elements(By.XPATH, xpath_)
-        if return_xpath and len(elements_) == 1:
-            return xpath_
-    else:
-        return []
+    tags = [contains_text, contains_class, contains_id, contains_src,
+            contains_style, contains_name]
+    prefix = ['text()', '@class', '@id', '@src', '@style', '@name']
+    
+    xpath_ = f'''//*[{" and ".join([f"contains{k}"
+        for k in [(prefix[i], j) for i, j in enumerate(tags) if j]]) }]'''
+    [xpath_ := xpath_.replace(f"'{i}'", i) for i in prefix]
+    driver_wait(driver, time, xpath_)
+    elements_ = driver.find_elements(By.XPATH, xpath_)
+    if return_xpath and len(elements_) == 1:
+        return xpath_
+
     data_ =  [driver.execute_script(
         '''var items = {}; for (index = 0; index < arguments[0].attributes.length; ++index)
  { items[arguments[0].attributes[index].name] = arguments[0].attributes[index].value };
