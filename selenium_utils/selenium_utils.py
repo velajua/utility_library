@@ -226,6 +226,8 @@ def find_element_data(driver, contains_text='', contains_class='',
     elements_ = driver.find_elements(By.XPATH, xpath_)
     if return_xpath and len(elements_) == 1:
         return xpath_
+    elif not elements_:
+        return f'None found with xpath {xpath_}' 
 
     data_ =  [driver.execute_script(
         '''var items = {}; for (index = 0; index < arguments[0].attributes.length; ++index)
