@@ -2,6 +2,8 @@ import os
 import sys
 import traceback
 
+import selenium
+
 from selenium import webdriver
 from fake_useragent import UserAgent
 from webdriver_manager.chrome import ChromeDriverManager
@@ -12,9 +14,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from ip_utils import useful_proxies_gen
+from utils.ip_utils import useful_proxies_gen
 
-from typing import Union
+from typing import Union, Dict, List
 
 
 def getDriver(*mods: str) -> webdriver.Chrome:
@@ -180,6 +182,61 @@ def page_interaction(driver: WebDriver, action: str,
         return driver.page_source
     else:
         return False
+
+
+def find_element_data(driver, contains_text='', contains_class='',
+                      return_element=False, return_xpath=False) -> Union[
+                          Dict[str, Union[str, Dict[str, str]]],
+                          List[selenium.webdriver.remote.webelement.WebElement],
+                          str, List]:
+    """
+    Find and return data about HTML elements on a webpage using
+    Selenium WebDriver.
+
+    Args:
+        driver: An instance of a Selenium WebDriver.
+        contains_text: Optional text that the element should contain.
+        contains_class: Optional class name that the element should have.
+        return_element: Optional flag to indicate whether to return the
+            element(s) found or not. Default is False.
+        return_xpath: Optional flag to indicate whether to return the XPath
+            of the element(s) found or not. Default is False.
+
+    Returns:
+        If neither `return_element` nor `return_xpath` is True, a list of
+            dictionaries with data about the element(s) found.
+        Each dictionary has the keys 'tag_name', 'text', and the attributes
+            of the element.
+        If `return_element` is True and only one element is found,
+            the element object is returned.
+        If `return_element` is True and multiple elements are found,
+            a list of element data objects is returned.
+        If `return_xpath` is True and only one element is found,
+            the XPath string is returned.
+    """
+    if contains_text and contains_class:
+        xpath_ = f'//*[contains(text(), "{contains_text}") and contains(@class, "{contains_class}")]'
+        elements_ = driver.find_elements(By.XPATH, xpath_)
+        if return_xpath and len(elements_) == 1:
+            return xpath_
+    elif contains_text:
+        xpath_ = f'//*[contains(text(), "{contains_text}")]'
+        elements_ = driver.find_elements(By.XPATH, xpath_)
+        if return_xpath and len(elements_) == 1:
+            return xpath_
+    elif contains_class:
+        xpath_ = f'//*[contains(@class, "{contains_class}")]'
+        elements_ = driver.find_elements(By.XPATH, xpath_)
+        if return_xpath and len(elements_) == 1:
+            return xpath_
+    else:
+        return []
+    data_ =  [driver.execute_script(
+        '''var items = {}; for (index = 0; index < arguments[0].attributes.length; ++index)
+ { items[arguments[0].attributes[index].name] = arguments[0].attributes[index].value };
+ return items;''', e) | {'tag_name': e.tag_name, 'text': e.text} for e in elements_]
+    data_ =  data_ if len(data_) > 1 else data_[0] if not return_element else elements_[0]
+    return data_
 
 
 file_name = os.path.splitext(os.path.basename(os.path.abspath(__file__)))[0]
