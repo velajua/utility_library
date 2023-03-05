@@ -1,6 +1,6 @@
 import os
 import sys
-import traceback
+import pickle
 
 import selenium
 
@@ -237,6 +237,29 @@ def find_element_data(driver, contains_text='', contains_class='',
  return items;''', e) | {'tag_name': e.tag_name, 'text': e.text} for e in elements_]
     data_ =  data_ if len(data_) > 1 else data_[0] if not return_element else elements_[0]
     return data_
+
+
+def cookie_manager(driver: WebDriver, path: str = 'cookies.pkl',
+                   get_: bool = False) -> None:
+    """
+    Function to manage cookies in a Selenium WebDriver session.
+
+    Args:
+        driver (WebDriver): A Selenium WebDriver instance.
+        path (str, optional): The path to the file where the
+            cookies are saved. Defaults to 'cookies.pkl'.
+        get_ (bool, optional): If True, saves the cookies
+            from the WebDriver session to the specified file. 
+                              If False, loads the cookies
+            from the specified file and adds them to the WebDriver session. 
+                              Defaults to False.
+    """
+    if get_:
+        pickle.dump(driver.get_cookies(), open(path, "wb"))
+    else:
+        cookies: List[dict] = pickle.load(open(path, "rb"))
+        for cookie in cookies:
+            driver.add_cookie(cookie)
 
 
 file_name = os.path.splitext(os.path.basename(os.path.abspath(__file__)))[0]
