@@ -188,7 +188,7 @@ def page_interaction(driver: WebDriver, action: str,
 
 def find_element_data(driver, contains_text='', contains_class='',
                       contains_id='', contains_src='', contains_style='',
-                      contains_name='', return_element=False,
+                      contains_name='', return_element=False, tag_name='*',
                       return_xpath=False, time=30) -> Union[
                           Dict[str, Union[str, Dict[str, str]]],
                           List[selenium.webdriver.remote.webelement.WebElement],
@@ -221,7 +221,7 @@ def find_element_data(driver, contains_text='', contains_class='',
             contains_style, contains_name]
     prefix = ['text()', '@class', '@id', '@src', '@style', '@name']
     
-    xpath_ = f'''//*[{" and ".join([f"contains{k}"
+    xpath_ = f'''//{tag_name}[{" and ".join([f"contains{k}"
         for k in [(prefix[i], j) for i, j in enumerate(tags) if j]]) }]'''
     [xpath_ := xpath_.replace(f"'{i}'", i) for i in prefix]
     driver_wait(driver, time, xpath_)
