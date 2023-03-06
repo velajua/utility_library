@@ -1,4 +1,6 @@
+import os
 import re
+import sys
 
 from unidecode import unidecode
 from typing import Union, Optional
@@ -383,3 +385,9 @@ def separate_numbers_letters(x: str) -> str:
     """
     return ' '.join(re.findall(
         '[0-9]+|[a-zA-Z]+', x))
+
+
+file_name = os.path.splitext(os.path.basename(os.path.abspath(__file__)))[0]
+dir_name = os.path.basename(os.path.dirname(os.path.abspath(__file__)))
+if __name__ == "__main__" or __name__ == f"{dir_name}.{file_name}":
+    sys.path.append(os.path.dirname(os.path.abspath(__file__)))
