@@ -278,12 +278,12 @@ def is_valid_datetime(datetime_string: str,
     """
 ```
 
-### `is_valid_ip`
+### `is_valid_ipv4`
 
 A function that checks if the input string is a valid IPv4 address in the format 'X.X.X.X'.
 
 ```python
-def is_valid_ip(ip_string: str, extract: bool = False) -> Union[bool, str]:
+def is_valid_ipv4(ip_string: str, extract: bool = False) -> Union[bool, str]:
     """
     Args:
         ip_string (str): The string to be validated.
@@ -291,6 +291,25 @@ def is_valid_ip(ip_string: str, extract: bool = False) -> Union[bool, str]:
 
     Returns:
         bool or str: If the string is a valid IPv4 address,
+        returns True. If extract is True and
+        the string is a valid IP address, returns the matched IP string.
+        Otherwise, returns False.
+    """
+```
+
+### `is_valid_ipv6`
+
+A function that checks if the input string is a valid IPv6 address.
+
+```python
+def is_valid_ipv6(ip_string: str, extract: bool = False) -> Union[bool, str]:
+    """
+    Args:
+        ip_string (str): The string to be validated.
+        extract (bool): If True, returns the matched IP string.
+
+    Returns:
+        bool or str: If the string is a valid IPv6 address,
         returns True. If extract is True and
         the string is a valid IP address, returns the matched IP string.
         Otherwise, returns False.
