@@ -327,7 +327,7 @@ def is_valid_datetime(datetime_string: str,
     return bool(match)
 
 
-def is_valid_ip(ip_string: str, extract: bool = False) -> Union[bool, str]:
+def is_valid_ipv4(ip_string: str, extract: bool = False) -> Union[bool, str]:
     """
     Check if the input string is a valid IPv4 address in the format 'X.X.X.X'.
 
@@ -348,6 +348,43 @@ def is_valid_ip(ip_string: str, extract: bool = False) -> Union[bool, str]:
     if extract and match:
         return match.group()
     return bool(match)
+
+
+def is_valid_ipv6(ip_string: str, extract: bool = False) -> Union[bool, str]:
+    """
+    Check if the input string is a valid IPv6 address.
+
+    Args:
+        ip_string (str): The string to be validated.
+        extract (bool): If True, returns the matched IP string.
+
+    Returns:
+        bool or str: If the string is a valid IPv6 address,
+        returns True. If extract is True and
+        the string is a valid IP address, returns the matched IP string.
+        Otherwise, returns False.
+    """
+    pattern = r'''
+^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|
+([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|
+([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|
+([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|
+([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|
+([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|
+[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|
+fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|
+::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|
+1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|
+([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|
+1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$'''
+
+    if extract:
+        pattern = pattern[1:-1]
+    match = re.search(pattern, ip_string)
+    if extract and match:
+        return match.group()
+    return bool(match)
+
 
 
 def remove_symbols(x: str) -> str:
