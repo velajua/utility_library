@@ -364,7 +364,7 @@ def is_valid_ipv6(ip_string: str, extract: bool = False) -> Union[bool, str]:
         the string is a valid IP address, returns the matched IP string.
         Otherwise, returns False.
     """
-    pattern = r'''
+    pattern = r'''(?x)
 ^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|
 ([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|
 ([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|
@@ -401,7 +401,11 @@ def is_valid_coordinate(coordinates: str,
         the string is a valid IP address, returns the matched coordinates.
         Otherwise, returns False.
     """
-    pattern = r'^\(\s*([+-]?(90(\.0+)?|[1-8]?[0-9](\.[0-9]+)?))\s*,\s*([+-]?(180(\.0+)?|1[0-7][0-9](\.[0-9]+)?|[1-9]?[0-9](\.[0-9]+)?))\s*\)$'
+    pattern = r'''(?x)^\(\s*
+([+-]?(90(\.0+)?|[1-8]?[0-9](\.[0-9]+)?))\s*
+,\s*
+([+-]?(180(\.0+)?|1[0-7][0-9](\.[0-9]+)?|[1-9]?[0-9](\.[0-9]+)?))
+\s*\)$'''
 
     if extract:
         pattern = pattern[1:-1]
