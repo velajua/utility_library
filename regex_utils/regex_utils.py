@@ -389,8 +389,7 @@ fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|
 def is_valid_coordinate(coordinates: str,
                         extract: bool = False) -> Union[bool, str]:
     """
-    Check if the input string is a valid coordinate in
-    format (x, y).
+    Check if the input string is a valid coordinate.
 
     Args:
         coordinates (str): The string to be validated.
@@ -402,7 +401,7 @@ def is_valid_coordinate(coordinates: str,
         the string is a valid IP address, returns the matched coordinates.
         Otherwise, returns False.
     """
-    pattern = r'\(\s*([+-]?(90(\.0+)?|[1-8]?[0-9](\.[0-9]+)?))\s*,\s*([+-]?(180(\.0+)?|1[0-7][0-9](\.[0-9]+)?|[1-9]?[0-9](\.[0-9]+)?))\s*\)'
+    pattern = r'^\(\s*([+-]?(90(\.0+)?|[1-8]?[0-9](\.[0-9]+)?))\s*,\s*([+-]?(180(\.0+)?|1[0-7][0-9](\.[0-9]+)?|[1-9]?[0-9](\.[0-9]+)?))\s*\)$'
 
     if extract:
         pattern = pattern[1:-1]
