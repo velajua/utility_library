@@ -47,5 +47,28 @@ def slackMessage(message: Union[str, Dict], url: str,
     :type color: str, optional
     :raises: Exception
     """
+```
 
+### `send_message`
+
+Sends a message to a Slack channel using the Slack Web API.
+
+```python
+def send_message(channel: str, text: str,
+                 TOKEN: str = None) -> str:
+    """
+    Parameters:
+    - channel (str): the name or ID of the
+        channel to send the message to.
+    - text (str): the message text to send.
+    - TOKEN (str): the Bot User OAuth Access
+        Token for your Slack app (required).
+    Returns:
+    - A string representation of the JSON
+        response from the Slack API.
+    Example usage:
+    TOKEN = "your-token"
+    send_message(channel="general",
+                 text="Hello from Python!", TOKEN=TOKEN)
+    """
 ```
