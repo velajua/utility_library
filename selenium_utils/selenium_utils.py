@@ -194,6 +194,7 @@ def find_element_data(driver: WebDriver, contains_text: Union[str, List[str]] = 
                       contains_name: Union[str, List[str]] = '',
                       contains_title: Union[str, List[str]] = '',
                       contains_alt: Union[str, List[str]] = '',
+                      contains_href: Union[str, List[str]] = '',
                       return_element: bool = False, tag_name: str = '*',
                       return_xpath: bool = False, time: int = 30) -> Union[
                           Dict[str, Union[str, Dict[str, str]]],
@@ -224,9 +225,10 @@ def find_element_data(driver: WebDriver, contains_text: Union[str, List[str]] = 
             the XPath string is returned.
     """
     tags = [contains_text, contains_class, contains_id, contains_src,
-            contains_style, contains_name, contains_title, contains_alt]
+            contains_style, contains_name, contains_title, contains_alt,
+            contains_href]
     prefix = ['text()', '@class', '@id', '@src', '@style', '@name',
-              '@title', '@alt']
+              '@title', '@alt', '@href']
     
     xpath_fragments = []
     for i, j in enumerate(tags):
