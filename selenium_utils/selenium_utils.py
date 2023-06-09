@@ -11,6 +11,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -129,7 +130,7 @@ def type_or_get_text(driver: WebDriver, time: int,
     :type xpath: str
     :param text: Text to type
     :type text: str
-    :param action: Action to do. One of: 'type' and 'get'
+    :param action: Action to do. One of: 'type', 'get' and 'return'
     :type action: str
     """
     driver_wait(driver, time, xpath)
@@ -140,6 +141,8 @@ def type_or_get_text(driver: WebDriver, time: int,
         return True
     elif action == 'get':
         return element.text
+    elif action == 'return':
+        element.send_keys(Keys.RETURN)
     else:
         return False
 
