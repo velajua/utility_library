@@ -37,7 +37,7 @@ def getDriver(*mods: str) -> webdriver.Chrome:
     :rtype: webdriver.Chrome
     """
     chrome_options = webdriver.ChromeOptions()
-    capabilities = DesiredCapabilities.CHROME
+    # capabilities = DesiredCapabilities.CHROME
 
     prefs = {"profile.managed_default_content_settings.images": 2}
     chrome_options.add_experimental_option("prefs", prefs)
@@ -63,9 +63,10 @@ def getDriver(*mods: str) -> webdriver.Chrome:
         chrome_options.add_argument("--headless")
 
     driver = webdriver.Chrome(
-        ChromeDriverManager().install(),
+        # ChromeDriverManager().install(),
         options=chrome_options,
-        desired_capabilities=capabilities)
+        # desired_capabilities=capabilities
+    )
     if 'maximize' in mods:
         driver.maximize_window()
     return driver
